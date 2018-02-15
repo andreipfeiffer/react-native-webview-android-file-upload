@@ -1,4 +1,4 @@
-# React Native Android Image File Upload Webview (camera + file)
+# React Native Android Webview Image Upload (camera + file)
 
 This is a Custom React Native Android module that enables image upload from Webview:
 
