@@ -2,8 +2,8 @@
   "name": "react-native-webview-android-image-upload",
   "version": "0.0.1",
   "private": false,
-  "dependencies": {
-    "react": "16.0.0",
-    "react-native": "0.50.3"
+  "peerDependencies": {
+    "react": ">= 16.0.0",
+    "react-native": ">= 0.50.3"
   }
 }
