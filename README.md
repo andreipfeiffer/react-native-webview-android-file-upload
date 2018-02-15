@@ -15,7 +15,15 @@ It works with React Native 0.50+, and reverts to the built-in WebView on iOS.
 npm install git+ssh://git@github.com:andreipfeiffer/react-native-webview-android-image-upload.git
 ```
 
-## Add it to your android project
+## Auto linking
+
+```
+react-native link react-native-webview-android-image-upload
+```
+
+The above should make the changes listed below. If it doesn't work, you should try manual linking.
+
+## Manual linking
 
 * Update `android/setting.gradle`
 
