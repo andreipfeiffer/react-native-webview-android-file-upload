@@ -12,7 +12,7 @@ It works with React Native 0.50+, and reverts to the built-in WebView on iOS.
 ## Installation
 
 ```bash
-npm install react-native-webview-android --save
+npm install git+ssh://git@github.com:andreipfeiffer/react-native-webview-android-image-upload.git
 ```
 
 ## Add it to your android project
