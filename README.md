@@ -42,7 +42,7 @@ dependencies {
 * Register Module in `android/app/src/main/java/com/[your-project-package]/MainApplication.java`
 
 ```java
-import com.rncustomwebview.CustomWebViewPackage;;  // <--- import package
+import com.rncustomwebview.CustomWebViewPackage;  // <--- import package
 
 public class MainApplication extends Application implements ReactApplication {
 
