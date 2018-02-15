@@ -1,2 +1,79 @@
-# react-native-webview-android-image-upload
-This is a Custom React Native Android module that enables image upload from Webview
+# React Native Android Image File Upload Webview (camera + file)
+
+This is a Custom React Native Android module that enables image upload from Webview:
+
+* by choosing an existing gallery image
+* by taking a new photo using the camera
+
+All I did was take dahjelle's implementation and extract it into a separate module like lucasferreira.
+
+It works with React Native 0.50+, and reverts to the built-in WebView on iOS.
+
+## Installation
+
+```bash
+npm install react-native-webview-android --save
+```
+
+## Add it to your android project
+
+* In `android/setting.gradle`
+
+```gradle
+......
+include ':react-native-webview-android-image-upload'
+project(':react-native-webview-android-image-upload').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview-android-image-upload/android')
+......
+```
+
+* In `android/app/build.gradle`
+
+```gradle
+......
+dependencies {
+  ......
+  compile project(':react-native-webview-android-image-upload')
+}
+```
+
+* Register Module - RN >= 0.29 (in MainApplication.java)
+
+```java
+import com.rncustomwebview.CustomWebViewPackage;;  // <--- import package
+
+public class MainApplication extends Application implements ReactApplication {
+
+......
+
+  @Override
+  protected List<ReactPackage> getPackages() {
+    return Arrays.<ReactPackage>asList(
+      new MainReactPackage(),
+      new CustomWebViewPackage()  // <------ add this line to your MainApplication class
+    ); 
+  }
+
+  ......
+
+}
+```
+
+## Example
+```javascript
+import React, { Component } from "react";
+
+// import module
+import CustomWebView from "react-native-webview-android-image-upload";
+
+export default class App extends Component {
+  render() {
+    return (
+      <CustomWebView
+        source={{ uri: "your-url.com" }}
+        startInLoadingState={true}
+        // any other attributes supported by React Native's WebView
+      />
+    );
+  }
+}
+```
