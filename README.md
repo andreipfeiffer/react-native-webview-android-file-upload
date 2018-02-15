@@ -5,7 +5,7 @@ This is a Custom React Native Android module that enables image upload from Webv
 * by choosing an existing gallery image
 * by taking a new photo using the camera
 
-All I did was take dahjelle's implementation and extract it into a separate module like lucasferreira.
+All I did was take [dahjelle's react-native-android-webview-file-image-upload][dahjelle] implementation and extract it into a separate module like [lucasferreira's react-native-webview-android][lucasferreira].
 
 It works with React Native 0.50+, and reverts to the built-in WebView on iOS.
 
@@ -77,3 +77,6 @@ export default class App extends Component {
   }
 }
 ```
+
+[dahjelle]: https://github.com/dahjelle/react-native-android-webview-file-image-upload
+[lucasferreira]: https://github.com/lucasferreira/react-native-webview-android
