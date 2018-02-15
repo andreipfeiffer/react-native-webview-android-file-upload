@@ -17,26 +17,29 @@ npm install react-native-webview-android --save
 
 ## Add it to your android project
 
-* In `android/setting.gradle`
+* Update `android/setting.gradle`
 
 ```gradle
 ......
+
 include ':react-native-webview-android-image-upload'
 project(':react-native-webview-android-image-upload').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview-android-image-upload/android')
+
 ......
 ```
 
-* In `android/app/build.gradle`
+* Update `android/app/build.gradle`
 
 ```gradle
 ......
+
 dependencies {
   ......
   compile project(':react-native-webview-android-image-upload')
 }
 ```
 
-* Register Module - RN >= 0.29 (in MainApplication.java)
+* Register Module in `android/app/src/main/java/com/[your-project-package]/MainApplication.java`
 
 ```java
 import com.rncustomwebview.CustomWebViewPackage;;  // <--- import package
@@ -69,7 +72,7 @@ export default class App extends Component {
   render() {
     return (
       <CustomWebView
-        source={{ uri: "your-url.com" }}
+        source={{ uri: "https://github.com/andreipfeiffer/react-native-webview-android-image-upload" }}
         startInLoadingState={true}
         // any other attributes supported by React Native's WebView
       />
