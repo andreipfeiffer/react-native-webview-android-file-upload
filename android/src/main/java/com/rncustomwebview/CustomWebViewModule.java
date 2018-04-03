@@ -71,13 +71,13 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
             final WebChromeClient.FileChooserParams fileChooserParams
     ) {
         final String TAKE_PHOTO = "Take a photo…";
-        final String CHOOSE_FILE = "Choose an image file…";
+        final String CHOOSE_FILE = "Choose an existing file…";
         final String CANCEL = "Cancel";
         this.filePathCallback = filePathCallback;
         // from https://stackoverflow.com/a/36306345/185651
         final CharSequence[] items = { TAKE_PHOTO, CHOOSE_FILE, CANCEL };
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getCurrentActivity());
-        builder.setTitle("Add a photo!");
+        builder.setTitle("Upload file:");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
