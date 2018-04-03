@@ -14,7 +14,8 @@ import com.facebook.react.views.webview.ReactWebViewManager;
 
 @ReactModule(name = CustomWebViewManager.REACT_CLASS)
 public class CustomWebViewManager extends ReactWebViewManager {
-    /* This name must match what we're referring to in JS */
+
+    // This name must match what we're referring to in JS
     protected static final String REACT_CLASS = "RCTCustomWebView";
     private CustomWebViewPackage aPackage;
 
@@ -42,12 +43,18 @@ public class CustomWebViewManager extends ReactWebViewManager {
             }
 
             // this is the addition method to react-native built-in
-            // it calls the photo picker intent in a separate module apparently so all the parts that need to can access other bits in scope. I wish I understood more Java, but this is the way https://github.com/hushicai/ReactNativeAndroidWebView did it, and it seems to work
-            public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback,
-                    FileChooserParams fileChooserParams) {
+            // it calls the photo picker intent in a separate module
+            // so all the parts that need to can access other bits in scope
+            // this is the way https://github.com/hushicai/ReactNativeAndroidWebView did it
+            public boolean onShowFileChooser(
+                    WebView webView,
+                    ValueCallback<Uri[]> filePathCallback,
+                    FileChooserParams fileChooserParams
+            ) {
                 return getModule().startPhotoPickerIntent(filePathCallback, fileChooserParams);
             }
         });
+
         // force web content debugging on
         WebView.setWebContentsDebuggingEnabled(true);
         return webView;
