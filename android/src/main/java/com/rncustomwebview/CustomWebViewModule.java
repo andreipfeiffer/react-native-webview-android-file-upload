@@ -59,8 +59,10 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
     public void onNewIntent(Intent intent) {
     }
 
-    public boolean startPhotoPickerIntent(final ValueCallback<Uri[]> filePathCallback,
-            final WebChromeClient.FileChooserParams fileChooserParams) {
+    public boolean startPhotoPickerIntent(
+            final ValueCallback<Uri[]> filePathCallback,
+            final WebChromeClient.FileChooserParams fileChooserParams
+    ) {
         final String TAKE_PHOTO = "Take a photo…";
         final String CHOOSE_FILE = "Choose an image file…";
         final String CANCEL = "Cancel";
