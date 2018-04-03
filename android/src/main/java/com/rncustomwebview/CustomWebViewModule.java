@@ -78,6 +78,19 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
         final CharSequence[] items = { TAKE_PHOTO, CHOOSE_FILE, CANCEL };
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getCurrentActivity());
         builder.setTitle("Upload file:");
+
+        // this gets called when the user:
+        // 1. chooses "Cancel"
+        // 2. presses "Back button"
+        // 3. taps outside the dialog
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                // we need to tell the callback we cancelled
+                filePathCallback.onReceiveValue(null);
+            }
+        });
+
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
@@ -97,9 +110,7 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
                     getCurrentActivity().startActivityForResult(fileChooserParams.createIntent().setType("image/*"),
                             SELECT_FILE);
                 } else if (items[item].equals(CANCEL)) {
-                    dialog.dismiss();
-                    // since we are returning `true` below, we need to tell the callback we cancelled
-                    filePathCallback.onReceiveValue(null);
+                    dialog.cancel();
                 }
             }
         });
