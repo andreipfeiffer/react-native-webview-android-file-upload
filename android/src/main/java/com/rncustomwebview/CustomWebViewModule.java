@@ -15,6 +15,8 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 
 import java.io.File;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Much of the code here derived from the sample at https://github.com/hushicai/ReactNativeAndroidWebView.
  */
@@ -47,7 +49,12 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
         // * I believe I ran across this as a possible problem and didn't do a lot of testing; this code seems to work fine
         switch (requestCode) {
         case REQUEST_CAMERA:
-            filePathCallback.onReceiveValue(new Uri[] { outputFileUri });
+            if (resultCode == RESULT_OK) {
+                Log.d("RESULT_OK", String.valueOf(outputFileUri));
+                filePathCallback.onReceiveValue(new Uri[] { outputFileUri });
+            } else {
+                filePathCallback.onReceiveValue(null);
+            }
             break;
         case SELECT_FILE:
             filePathCallback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data));
