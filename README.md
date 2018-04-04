@@ -6,7 +6,7 @@ This is a Custom React Native Android module that enables file uploads from a We
 * by __recording a video using the camera__
 * by __choosing an existing gallery image__
 
-All I did was take [dahjelle's react-native-android-webview-file-image-upload][dahjelle] implementation, extract it into a separate module like [lucasferreira's react-native-webview-android][lucasferreira] and add the video recording functionality.
+All I did was take [dahjelle's react-native-android-webview-file-image-upload][dahjelle] implementation, fix some problems, extract it into a separate module like [lucasferreira's react-native-webview-android][lucasferreira] and add the video recording functionality.
 
 It works with React Native 0.50+, and reverts to the built-in WebView on iOS.
 
