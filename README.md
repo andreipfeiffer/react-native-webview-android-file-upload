@@ -1,11 +1,12 @@
-# React Native Android Webview Image Upload (camera + file)
+# React Native Android WebView File Upload (camera + file)
 
-This is a Custom React Native Android module that enables image upload from Webview:
+This is a Custom React Native Android module that enables file uploads from a WebView `<input type="file" />` element:
 
-* by choosing an existing gallery image
-* by taking a new photo using the camera
+* by __taking a new photo using the camera__
+* by __recording a video using the camera__
+* by __choosing an existing gallery image__
 
-All I did was take [dahjelle's react-native-android-webview-file-image-upload][dahjelle] implementation and extract it into a separate module like [lucasferreira's react-native-webview-android][lucasferreira].
+All I did was take [dahjelle's react-native-android-webview-file-image-upload][dahjelle] implementation, extract it into a separate module like [lucasferreira's react-native-webview-android][lucasferreira] and add the video recording functionality.
 
 It works with React Native 0.50+, and reverts to the built-in WebView on iOS.
 
@@ -80,7 +81,7 @@ export default class App extends Component {
   render() {
     return (
       <CustomWebView
-        source={{ uri: "https://github.com/andreipfeiffer/react-native-webview-android-image-upload" }}
+        source={{ uri: "your-web-url" }}
         startInLoadingState={true}
         // any other attributes supported by React Native's WebView
       />
@@ -88,6 +89,10 @@ export default class App extends Component {
   }
 }
 ```
+
+## @todo
+
+Enable image and/or video based on the `<input accept="" />` attribute value.
 
 [dahjelle]: https://github.com/dahjelle/react-native-android-webview-file-image-upload
 [lucasferreira]: https://github.com/lucasferreira/react-native-webview-android
