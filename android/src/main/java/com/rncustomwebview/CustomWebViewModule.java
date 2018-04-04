@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 
@@ -45,11 +46,10 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
         // based off of which button was pressed, we get an activity result and a file
         // the camera activity doesn't properly return the filename* (I think?) so we use
         // this filename instead
-        //
-        // * I believe I ran across this as a possible problem and didn't do a lot of testing; this code seems to work fine
         switch (requestCode) {
         case REQUEST_CAMERA:
             if (resultCode == RESULT_OK) {
+                // Log.d("RESULT_OK", String.valueOf(outputFileUri));
                 filePathCallback.onReceiveValue(new Uri[] { outputFileUri });
             } else {
                 filePathCallback.onReceiveValue(null);
@@ -100,6 +100,14 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
                 } else if (items[item].equals(TAKE_VIDEO)) {
                     startCamera(MediaStore.ACTION_VIDEO_CAPTURE, "video-", ".mp4");
                 } else if (items[item].equals(CHOOSE_FILE)) {
+
+                    // @TODO set type based on input accept type
+                    // @TODO when the accept types are empty, length is 1 and first element is empty, length 0
+                    Log.d("PARAMS", (String.valueOf(arrayContainsString(fileChooserParams.getAcceptTypes(), "image"))));
+                    Log.d("PARAMS", (String.valueOf(fileChooserParams.getAcceptTypes().length)));
+                    Log.d("PARAMS", (String.valueOf(fileChooserParams.getAcceptTypes()[0])));
+                    Log.d("PARAMS", (String.valueOf(fileChooserParams.getAcceptTypes()[0].length())));
+
                     // display a file chooser;
                     // the webview actually gives us this `createIntent` thing that brings up a reasonable image picker
                     getCurrentActivity().startActivityForResult(
@@ -140,5 +148,14 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
         }
         intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
         getCurrentActivity().startActivityForResult(intent, REQUEST_CAMERA);
+    }
+
+    private boolean arrayContainsString(String[] array, String pattern){
+        for(String content : array){
+            if(content.indexOf(pattern) > -1){
+                return true;
+            }
+        }
+        return false;
     }
 }
