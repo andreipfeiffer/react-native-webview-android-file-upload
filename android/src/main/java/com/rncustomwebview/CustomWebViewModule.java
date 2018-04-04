@@ -50,7 +50,6 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
         switch (requestCode) {
         case REQUEST_CAMERA:
             if (resultCode == RESULT_OK) {
-                Log.d("RESULT_OK", String.valueOf(outputFileUri));
                 filePathCallback.onReceiveValue(new Uri[] { outputFileUri });
             } else {
                 filePathCallback.onReceiveValue(null);
@@ -71,11 +70,13 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
             final WebChromeClient.FileChooserParams fileChooserParams
     ) {
         final String TAKE_PHOTO = "Take a photo…";
+        final String TAKE_VIDEO = "Record a video…";
         final String CHOOSE_FILE = "Choose an existing file…";
         final String CANCEL = "Cancel";
         this.filePathCallback = filePathCallback;
+
         // from https://stackoverflow.com/a/36306345/185651
-        final CharSequence[] items = { TAKE_PHOTO, CHOOSE_FILE, CANCEL };
+        final CharSequence[] items = { TAKE_PHOTO, TAKE_VIDEO, CHOOSE_FILE, CANCEL };
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getCurrentActivity());
         builder.setTitle("Upload file:");
 
@@ -95,20 +96,16 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (items[item].equals(TAKE_PHOTO)) {
-                    // bring up a camera picker intent; we need to pass a filename for the file to be saved to
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    try {
-                        // need to specify a directory here; the download directory was the one that didn't end up giving me permissions errors
-                        outputFileUri = Uri.fromFile(File.createTempFile("rubix-image-", ".jpg",
-                                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)));
-                    } catch (java.io.IOException e) {
-                    }
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-                    getCurrentActivity().startActivityForResult(intent, REQUEST_CAMERA);
+                    startCamera(MediaStore.ACTION_IMAGE_CAPTURE, "image-", ".jpg");
+                } else if (items[item].equals(TAKE_VIDEO)) {
+                    startCamera(MediaStore.ACTION_VIDEO_CAPTURE, "video-", ".mp4");
                 } else if (items[item].equals(CHOOSE_FILE)) {
-                    // display a file chooser; the webview actually gives us this `createIntent` thing that brings up a reasonable image picker
-                    getCurrentActivity().startActivityForResult(fileChooserParams.createIntent().setType("image/*"),
-                            SELECT_FILE);
+                    // display a file chooser;
+                    // the webview actually gives us this `createIntent` thing that brings up a reasonable image picker
+                    getCurrentActivity().startActivityForResult(
+                            fileChooserParams.createIntent().setType("image/*"),
+                            SELECT_FILE
+                    );
                 } else if (items[item].equals(CANCEL)) {
                     dialog.cancel();
                 }
@@ -125,5 +122,23 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
 
     public void setPackage(CustomWebViewPackage aPackage) {
         this.aPackage = aPackage;
+    }
+
+    private void startCamera(String intentType, String prefix, String suffix) {
+
+        // bring up a camera picker intent; we need to pass a filename for the file to be saved to
+        Intent intent = new Intent(intentType);
+        try {
+            // need to specify a directory here
+            // the download directory was the one that didn't end up giving me permissions errors
+            outputFileUri = Uri.fromFile(File.createTempFile(
+                    prefix,
+                    suffix,
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS))
+            );
+        } catch (java.io.IOException e) {
+        }
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+        getCurrentActivity().startActivityForResult(intent, REQUEST_CAMERA);
     }
 }
