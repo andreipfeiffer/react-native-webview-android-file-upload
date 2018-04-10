@@ -101,7 +101,7 @@ You can use the `accept` attribute on the `<input />` element to control what ty
 
 ## @todo
 
-The default accepted mime types are `"image/*, video/*"`, which doesn't not include sounds. This default could be customized from the React Native Component and maybe we can default to `"*/*"`.
+The default accepted mime types are `"image/*, video/*"`, which don't include `audio`. This default could be customized from the React Native Component and maybe we can default to `"*/*"`.
 
 [dahjelle]: https://github.com/dahjelle/react-native-android-webview-file-image-upload
 [lucasferreira]: https://github.com/lucasferreira/react-native-webview-android
