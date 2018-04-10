@@ -10,13 +10,13 @@ All I did was take [dahjelle's react-native-android-webview-file-image-upload][d
 
 It works with React Native 0.50+, and reverts to the built-in WebView on iOS.
 
-## Installation
+# Installation
 
 ```bash
 npm install git+ssh://git@github.com:andreipfeiffer/react-native-webview-android-image-upload.git
 ```
 
-## Auto linking
+### Auto linking
 
 ```
 react-native link react-native-webview-android-image-upload
@@ -24,7 +24,7 @@ react-native link react-native-webview-android-image-upload
 
 The above should make the changes listed below. If it doesn't work, you should try manual linking.
 
-## Manual linking
+### Manual linking
 
 * Update `android/setting.gradle`
 
@@ -70,7 +70,7 @@ public class MainApplication extends Application implements ReactApplication {
 }
 ```
 
-## Example
+# Example
 ```javascript
 import React, { Component } from "react";
 
@@ -90,7 +90,7 @@ export default class App extends Component {
 }
 ```
 
-## Controlling image and/or video
+### Controlling image and/or video
 
 You can use the `accept` attribute on the `<input />` element to control what type of media your users will be allowed to upload.
 
@@ -99,7 +99,7 @@ You can use the `accept` attribute on the `<input />` element to control what ty
 * `<input type="file" accept="video/*" />` will allow only video recording / selection
 * `<input type="file" accept="image/*, video/*" />` same as default
 
-## @todo
+# @todo
 
 The default accepted mime types are `"image/*, video/*"`, which don't include `audio`. This default could be customized from the React Native Component and maybe we can default to `"*/*"`.
 
