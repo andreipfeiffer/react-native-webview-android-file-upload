@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 
@@ -15,6 +15,8 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -29,6 +31,14 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
     private ValueCallback<Uri[]> filePathCallback;
     private Uri outputFileUri;
 
+    // @todo this could be configured from JS
+    final String[] DEFAULT_MIME_TYPES = {"image/*", "video/*"};
+
+    final String TAKE_PHOTO = "Take a photo…";
+    final String TAKE_VIDEO = "Record a video…";
+    final String CHOOSE_FILE = "Choose an existing file…";
+    final String CANCEL = "Cancel";
+
     public CustomWebViewModule(ReactApplicationContext context) {
         super(context);
         context.addActivityEventListener(this);
@@ -40,23 +50,28 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
     }
 
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
+
         if (this.filePathCallback == null) {
             return;
         }
+
         // based off of which button was pressed, we get an activity result and a file
         // the camera activity doesn't properly return the filename* (I think?) so we use
         // this filename instead
         switch (requestCode) {
         case REQUEST_CAMERA:
             if (resultCode == RESULT_OK) {
-                // Log.d("RESULT_OK", String.valueOf(outputFileUri));
                 filePathCallback.onReceiveValue(new Uri[] { outputFileUri });
             } else {
                 filePathCallback.onReceiveValue(null);
             }
             break;
         case SELECT_FILE:
-            filePathCallback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data));
+            if (resultCode == RESULT_OK && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                filePathCallback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data));
+            } else {
+                filePathCallback.onReceiveValue(null);
+            }
             break;
         }
         this.filePathCallback = null;
@@ -69,14 +84,10 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
             final ValueCallback<Uri[]> filePathCallback,
             final WebChromeClient.FileChooserParams fileChooserParams
     ) {
-        final String TAKE_PHOTO = "Take a photo…";
-        final String TAKE_VIDEO = "Record a video…";
-        final String CHOOSE_FILE = "Choose an existing file…";
-        final String CANCEL = "Cancel";
         this.filePathCallback = filePathCallback;
+        final String[] acceptTypes = getSafeAcceptedTypes(fileChooserParams);
+        final CharSequence[] items = getDialogItems(acceptTypes);
 
-        // from https://stackoverflow.com/a/36306345/185651
-        final CharSequence[] items = { TAKE_PHOTO, TAKE_VIDEO, CHOOSE_FILE, CANCEL };
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getCurrentActivity());
         builder.setTitle("Upload file:");
 
@@ -100,20 +111,7 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
                 } else if (items[item].equals(TAKE_VIDEO)) {
                     startCamera(MediaStore.ACTION_VIDEO_CAPTURE, "video-", ".mp4");
                 } else if (items[item].equals(CHOOSE_FILE)) {
-
-                    // @TODO set type based on input accept type
-                    // @TODO when the accept types are empty, length is 1 and first element is empty, length 0
-                    Log.d("PARAMS", (String.valueOf(arrayContainsString(fileChooserParams.getAcceptTypes(), "image"))));
-                    Log.d("PARAMS", (String.valueOf(fileChooserParams.getAcceptTypes().length)));
-                    Log.d("PARAMS", (String.valueOf(fileChooserParams.getAcceptTypes()[0])));
-                    Log.d("PARAMS", (String.valueOf(fileChooserParams.getAcceptTypes()[0].length())));
-
-                    // display a file chooser;
-                    // the webview actually gives us this `createIntent` thing that brings up a reasonable image picker
-                    getCurrentActivity().startActivityForResult(
-                            fileChooserParams.createIntent().setType("image/*"),
-                            SELECT_FILE
-                    );
+                    startFileChooser(fileChooserParams);
                 } else if (items[item].equals(CANCEL)) {
                     dialog.cancel();
                 }
@@ -150,12 +148,73 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
         getCurrentActivity().startActivityForResult(intent, REQUEST_CAMERA);
     }
 
-    private boolean arrayContainsString(String[] array, String pattern){
+    private void startFileChooser(WebChromeClient.FileChooserParams fileChooserParams) {
+        final String[] acceptTypes = getSafeAcceptedTypes(fileChooserParams);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Intent intent = fileChooserParams.createIntent();
+            intent.setType("*/*");
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, getAcceptedMimeType(acceptTypes));
+            getCurrentActivity().startActivityForResult(intent, SELECT_FILE);
+        }
+    }
+
+    private CharSequence[] getDialogItems(String[] types) {
+        List<String> listItems = new ArrayList<String>();
+
+        if (acceptsImages(types)) {
+            listItems.add(TAKE_PHOTO);
+        }
+        if (acceptsVideo(types)) {
+            listItems.add(TAKE_VIDEO);
+        }
+
+        listItems.add(CHOOSE_FILE);
+        listItems.add(CANCEL);
+
+        return listItems.toArray(new CharSequence[listItems.size()]);
+    }
+
+    private Boolean acceptsImages(String[] types) {
+        return isArrayEmpty(types) || arrayContainsString(types, "image");
+    }
+
+    private Boolean acceptsVideo(String[] types) {
+        return isArrayEmpty(types) || arrayContainsString(types, "video");
+    }
+
+    private Boolean arrayContainsString(String[] array, String pattern){
         for(String content : array){
             if(content.indexOf(pattern) > -1){
                 return true;
             }
         }
         return false;
+    }
+
+    private String[] getSafeAcceptedTypes(WebChromeClient.FileChooserParams params) {
+        // the getAcceptTypes() is available only in api 21+
+        // for lower level, we ignore it
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return params.getAcceptTypes();
+        }
+
+        final String[] EMPTY = {};
+        return EMPTY;
+    }
+
+    private String[] getAcceptedMimeType(String[] types) {
+        if (isArrayEmpty(types)) {
+            return DEFAULT_MIME_TYPES;
+        }
+        return types;
+    }
+
+    private Boolean isArrayEmpty(String[] arr) {
+        // when our array returned from getAcceptTypes() has no values set from the webview
+        // i.e. <input type="file" />, without any "accept" attr
+        // will be an array with one empty string element, afaik
+        return arr.length == 0 ||
+                (arr.length == 1 && arr[0].length() == 0);
     }
 }
