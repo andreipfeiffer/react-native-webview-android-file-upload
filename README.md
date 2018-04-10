@@ -90,9 +90,18 @@ export default class App extends Component {
 }
 ```
 
+## Controlling image and/or video
+
+You can use the `accept` attribute on the `<input />` element to control what type of media your users will be allowed to upload.
+
+* `<input type="file" />` will default to images and videos
+* `<input type="file" accept="image/*" />` will allow only image capture / selection
+* `<input type="file" accept="video/*" />` will allow only video recording / selection
+* `<input type="file" accept="image/*, video/*" />` same as default
+
 ## @todo
 
-Enable image and/or video based on the `<input accept="" />` attribute value.
+The default accepted mime types are `"image/*, video/*"`, which doesn't not include sounds. This default could be customized from the React Native Component and maybe we can default to `"*/*"`.
 
 [dahjelle]: https://github.com/dahjelle/react-native-android-webview-file-image-upload
 [lucasferreira]: https://github.com/lucasferreira/react-native-webview-android
