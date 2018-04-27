@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Andrei Pfeiffer</title>
+  <style>
+    html {
+      font-family: monospace;
+      font-size: 1.5em;
+      display: flex;
+      min-height: 100%;
+    }
+
+    body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    strong {
+      line-height: 2;
+    }
+</style>
+</head>
+
+<body>
+
+  <form action="#">
+    <p>
+      <label>
+        <strong>Default</strong> (no accept attr)
+        <br>
+        <input type="file" />
+      </label>
+    </p>
+    <br>
+    <p>
+      <label>
+        <strong>Accept "image/*"</strong>
+        <br>
+        <input type="file" accept="image/*" />
+      </label>
+    </p>
+    <br>
+    <p>
+      <label>
+        <strong>Accept "video/*"</strong>
+        <br>
+        <input type="file" accept="video/*" />
+      </label>
+    </p>
+    <br>
+    <p>
+      <label>
+        <strong>Accept "image/*, video/*"</strong>
+        <br>
+        <input type="file" accept="image/*, video/*" />
+      </label>
+    </p>
+  </form>
+
+</body>
+
+</html>
