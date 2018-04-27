@@ -26,29 +26,25 @@ export default class CustomWebView extends Component {
   };
 
   render() {
-    const nativeConfig =
-      Platform.OS === "android"
-        ? {
-            component: RCTCustomWebView,
-            viewManager: CustomWebViewManager
-          }
-        : null;
+    const { getRef, ...props } = this.props;
+
     return (
       <WebView
-        ref={webview => (this.webview = webview)}
-        {...this.props}
-        nativeConfig={nativeConfig}
+        ref={getRef}
+        {...props}
+        nativeConfig={this.nativeConfig}
       />
     );
   }
 
-  // unfortunately, the refs don't transfer cleanly, so if you use any of the static methods, you need to handle them here
-  injectJavaScript(...args) {
-    this.webview.injectJavaScript(...args);
-  }
-
-  reload(...args) {
-    this.webview.reload(...args);
+  nativeConfig = () => {
+    if (Platform.OS !== "android") {
+      return null;
+    }
+    return {
+      component: RCTCustomWebView,
+      viewManager: CustomWebViewManager
+    };
   }
 }
 
