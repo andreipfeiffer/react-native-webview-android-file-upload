@@ -107,9 +107,12 @@ You can use the `accept` attribute on the `<input />` element to control what ty
 * `<input type="file" accept="video/*" />` will allow only video recording / selection
 * `<input type="file" accept="image/*, video/*" />` same as default
 
+Check out the [example html][example].
+
 # @todo
 
 The default accepted mime types are `"image/*, video/*"`, which don't include `audio`. This default could be customized from the React Native Component and maybe we can default to `"*/*"`.
 
 [dahjelle]: https://github.com/dahjelle/react-native-android-webview-file-image-upload
 [lucasferreira]: https://github.com/lucasferreira/react-native-webview-android
+[example]: https://andreipfeiffer.github.io/react-native-webview-android-image-upload/index.html
