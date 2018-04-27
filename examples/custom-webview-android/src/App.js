@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, WebView } from "react-native";
+import { StyleSheet, View } from "react-native";
+import CustomWebView from "react-native-webview-android-image-upload";
 
 export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <WebView
+        <CustomWebView
           style={styles.container}
           source={{
             uri:
@@ -19,6 +20,6 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
+    flex: 1
+  }
 });

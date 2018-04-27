@@ -1,3 +1,5 @@
 rootProject.name = 'customWebviewAndroid'
+include ':react-native-webview-android-image-upload'
+project(':react-native-webview-android-image-upload').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview-android-image-upload/android')
 
 include ':app'
