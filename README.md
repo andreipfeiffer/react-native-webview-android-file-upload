@@ -91,10 +91,26 @@ export default class App extends Component {
       <CustomWebView
         source={{ uri: "your-web-url" }}
         startInLoadingState={true}
-        // any other attributes supported by React Native's WebView
+        // any other props supported by React Native's WebView
       />
     );
   }
+}
+```
+
+### Getting the WebView `ref`
+```javascript
+export default class App extends Component {
+  render() {
+    return (
+      <CustomWebView
+        source={{ uri: "your-web-url" }}
+        getRef={e => (this.webview = e)}
+      />
+    );
+  }
+
+  // then you can call: this.webview.reload()
 }
 ```
 
