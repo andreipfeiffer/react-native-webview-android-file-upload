@@ -70,6 +70,14 @@ public class MainApplication extends Application implements ReactApplication {
 }
 ```
 
+### Re-build your application
+
+Since you have changed native code, reloading the JS code alone won't work:
+
+```bash
+react-native run-android
+```
+
 # Example
 ```javascript
 import React, { Component } from "react";
