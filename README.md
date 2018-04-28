@@ -10,6 +10,8 @@ All I did was take [dahjelle's react-native-android-webview-file-image-upload][d
 
 It works with React Native 0.50+, and reverts to the built-in WebView on iOS.
 
+![](https://github.com/andreipfeiffer/react-native-webview-android-image-upload/blob/master/docs/preview.gif)
+
 # Installation
 
 ```bash
