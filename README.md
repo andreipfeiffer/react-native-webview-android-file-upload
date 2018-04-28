@@ -112,7 +112,9 @@ export default class App extends Component {
     );
   }
 
-  // then you can call: this.webview.reload()
+  // then you can call any of the methods available on the built-in ref, like:
+  // this.webview.reload();
+  // this.webview.injectJavaScript();
 }
 ```
 
