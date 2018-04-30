@@ -1,4 +1,4 @@
-# React Native Android WebView File Upload (camera + file)
+# React Native Android WebView File Upload
 
 This is a Custom React Native Android module that enables file uploads from a WebView `<input type="file" />` element:
 
