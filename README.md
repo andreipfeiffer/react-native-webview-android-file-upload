@@ -3,18 +3,18 @@
 This is a Custom React Native Android module that enables file uploads from a WebView `<input type="file" />` element:
 
 * by __taking a new photo using the camera__
-* by __recording a video using the camera__
-* by __choosing an existing gallery file__
+* by __recording a new video using the camera__
+* by __choosing an existing photo/video from the gallery__
 
 What this module does:
 
-* takes [dahjelle's react-native-android-webview-file-image-upload][dahjelle] implementation
-* fixed some problems where you couldn't open the camera multiple times
-* extract it into a separate module like [lucasferreira's react-native-webview-android][lucasferreira]
-* add the video recording functionality
-* add support for the `accept` attribute
+* takes [dahjelle's react-native-android-webview-file-image-upload][dahjelle] implementation;
+* fixes some bugs where you couldn't open the camera after first usage;
+* extracts it into a separate module like [lucasferreira's react-native-webview-android][lucasferreira] for easier setup;
+* adds the video recording functionality;
+* adds support for the `accept` attribute;
 
-It works with React Native 0.50+, and reverts to the built-in WebView on iOS.
+It should work with React Native 0.50+, and reverts to the built-in WebView on iOS.
 
 ![](https://github.com/andreipfeiffer/react-native-webview-android-image-upload/blob/master/docs/preview.gif)
 
@@ -30,7 +30,7 @@ npm install git+ssh://git@github.com:andreipfeiffer/react-native-webview-android
 react-native link react-native-webview-android-image-upload
 ```
 
-The above should make the changes listed below. If it doesn't work, you should try manual linking.
+The above should make the changes listed below. If it didn't, you should try manual linking.
 
 ### Manual linking
 
