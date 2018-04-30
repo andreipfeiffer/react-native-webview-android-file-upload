@@ -32,12 +32,12 @@ export default class CustomWebView extends Component {
       <WebView
         ref={getRef}
         {...props}
-        nativeConfig={this.nativeConfig}
+        nativeConfig={this.getNativeConfig()}
       />
     );
   }
 
-  nativeConfig = () => {
+  getNativeConfig() {
     if (Platform.OS !== "android") {
       return null;
     }
