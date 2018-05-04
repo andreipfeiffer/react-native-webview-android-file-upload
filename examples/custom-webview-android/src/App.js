@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Button } from "react-native";
-import CustomWebView from "react-native-webview-android-image-upload";
+import CustomWebView from "react-native-webview-android-file-upload";
 
 export default class App extends Component {
   inject = () => {
@@ -20,7 +20,7 @@ export default class App extends Component {
           injectedJavaScript={"alert('Custom webview loaded')"}
           source={{
             uri:
-              "https://andreipfeiffer.github.io/react-native-webview-android-image-upload/index.html"
+              "https://andreipfeiffer.github.io/react-native-webview-android-file-upload/index.html"
           }}
         />
 

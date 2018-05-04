@@ -1,5 +1,5 @@
 {
-  "name": "react-native-webview-android-image-upload",
+  "name": "react-native-webview-android-file-upload",
   "version": "0.2.0",
   "private": false,
   "peerDependencies": {
