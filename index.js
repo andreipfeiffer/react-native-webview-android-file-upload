@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 import {
   WebView,
   requireNativeComponent,
@@ -22,15 +23,16 @@ const { CustomWebViewManager } = NativeModules;
  */
 export default class CustomWebView extends Component {
   static propTypes = {
-    ...WebView.propTypes
+    ...WebView.propTypes,
+    webviewRef: PropTypes.func
   };
 
   render() {
-    const { getRef, ...props } = this.props;
+    const { webviewRef, ...props } = this.props;
 
     return (
       <WebView
-        ref={getRef}
+        ref={webviewRef}
         {...props}
         nativeConfig={this.getNativeConfig()}
       />

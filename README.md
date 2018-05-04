@@ -113,7 +113,7 @@ export default class App extends Component {
     return (
       <CustomWebView
         source={{ uri: "your-web-url" }}
-        getRef={e => (this.webview = e)}
+        webviewRef={e => (this.webview = e)}
       />
     );
   }
