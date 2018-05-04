@@ -16,7 +16,7 @@ export default class App extends Component {
       <View style={styles.container}>
         <CustomWebView
           style={styles.container}
-          getRef={e => (this.webview = e)}
+          webviewRef={e => (this.webview = e)}
           injectedJavaScript={"alert('Custom webview loaded')"}
           source={{
             uri:
