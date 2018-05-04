@@ -16,18 +16,18 @@ What this module does:
 
 It should work with React Native 0.50+, and reverts to the built-in WebView on iOS.
 
-![](https://github.com/andreipfeiffer/react-native-webview-android-image-upload/blob/master/docs/preview.gif)
+![](https://github.com/andreipfeiffer/react-native-webview-android-file-upload/blob/master/docs/preview.gif)
 
 # Installation
 
 ```bash
-npm install git+ssh://git@github.com:andreipfeiffer/react-native-webview-android-image-upload.git
+npm install git+ssh://git@github.com:andreipfeiffer/react-native-webview-android-file-upload.git
 ```
 
 ### Auto linking
 
 ```
-react-native link react-native-webview-android-image-upload
+react-native link react-native-webview-android-file-upload
 ```
 
 The above should make the changes listed below. If it didn't, you should try manual linking.
@@ -39,8 +39,8 @@ The above should make the changes listed below. If it didn't, you should try man
 ```gradle
 ......
 
-include ':react-native-webview-android-image-upload'
-project(':react-native-webview-android-image-upload').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview-android-image-upload/android')
+include ':react-native-webview-android-file-upload'
+project(':react-native-webview-android-file-upload').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview-android-file-upload/android')
 
 ......
 ```
@@ -52,7 +52,7 @@ project(':react-native-webview-android-image-upload').projectDir = new File(root
 
 dependencies {
   ......
-  compile project(':react-native-webview-android-image-upload')
+  compile project(':react-native-webview-android-file-upload')
 }
 ```
 
@@ -91,7 +91,7 @@ react-native run-android
 import React, { Component } from "react";
 
 // import module
-import CustomWebView from "react-native-webview-android-image-upload";
+import CustomWebView from "react-native-webview-android-file-upload";
 
 export default class App extends Component {
   render() {
@@ -141,4 +141,4 @@ The default accepted mime types are `"image/*, video/*"`, which don't include `a
 
 [dahjelle]: https://github.com/dahjelle/react-native-android-webview-file-image-upload
 [lucasferreira]: https://github.com/lucasferreira/react-native-webview-android
-[example]: https://andreipfeiffer.github.io/react-native-webview-android-image-upload/index.html
+[example]: https://andreipfeiffer.github.io/react-native-webview-android-file-upload/index.html
