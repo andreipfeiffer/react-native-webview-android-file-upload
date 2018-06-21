@@ -5,8 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 
@@ -15,7 +16,10 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -27,6 +31,8 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
     public static final String REACT_CLASS = "CustomWebViewModule";
     private static final int REQUEST_CAMERA = 1;
     private static final int SELECT_FILE = 2;
+    public static final int REQUEST_STORAGE = 3;
+
     private CustomWebViewPackage aPackage;
     private ValueCallback<Uri[]> filePathCallback;
     private Uri outputFileUri;
@@ -61,6 +67,7 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
         switch (requestCode) {
         case REQUEST_CAMERA:
             if (resultCode == RESULT_OK) {
+                Log.i("RESULT_OK", outputFileUri.toString());
                 filePathCallback.onReceiveValue(new Uri[] { outputFileUri });
             } else {
                 filePathCallback.onReceiveValue(null);
@@ -132,20 +139,20 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
 
     private void startCamera(String intentType, String prefix, String suffix) {
 
-        // bring up a camera picker intent; we need to pass a filename for the file to be saved to
+        // bring up a camera picker intent
+        // we need to pass a filename for the file to be saved to
         Intent intent = new Intent(intentType);
+
+        // Create the File where the photo should go
         try {
-            // need to specify a directory here
-            // the download directory was the one that didn't end up giving me permissions errors
-            outputFileUri = Uri.fromFile(File.createTempFile(
-                    prefix,
-                    suffix,
-                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS))
-            );
-        } catch (java.io.IOException e) {
+            String packageName = getReactApplicationContext().getPackageName();
+            File capturedFile = createCapturedFile(prefix, suffix);
+            outputFileUri = FileProvider.getUriForFile(getReactApplicationContext(), packageName+".fileprovider", capturedFile);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            getCurrentActivity().startActivityForResult(intent, REQUEST_CAMERA);
+        } catch (IOException ex) {
+            Log.e("CREATE FILE", "Error occurred while creating the File", ex);
         }
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-        getCurrentActivity().startActivityForResult(intent, REQUEST_CAMERA);
     }
 
     private void startFileChooser(WebChromeClient.FileChooserParams fileChooserParams) {
@@ -159,6 +166,13 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
         }
     }
 
+    private File createCapturedFile(String prefix, String suffix) throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = prefix + "_" + timeStamp;
+        File storageDir = getReactApplicationContext().getExternalFilesDir(null);
+        return File.createTempFile(imageFileName, suffix, storageDir);
+    }
+    
     private CharSequence[] getDialogItems(String[] types) {
         List<String> listItems = new ArrayList<String>();
 
@@ -185,7 +199,7 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
 
     private Boolean arrayContainsString(String[] array, String pattern){
         for(String content : array){
-            if(content.indexOf(pattern) > -1){
+            if(content.contains(pattern)){
                 return true;
             }
         }
