@@ -30,7 +30,7 @@ npm install git+ssh://git@github.com:andreipfeiffer/react-native-webview-android
 react-native link react-native-webview-android-file-upload
 ```
 
-The above should make the changes listed below. If it didn't, you should try manual linking.
+The above should make (most of) the changes listed below. If it didn't, you should try manual linking.
 
 ### Manual linking
 
@@ -76,6 +76,41 @@ public class MainApplication extends Application implements ReactApplication {
   ......
 
 }
+```
+
+* Add file provider path resource `file_provider_paths.xml` in `[your project]/android/app/src/main/res/xml/` folder. If the folder does not exist, create a new one.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <external-path name="shared" path="." />
+</paths>
+```
+
+* Add permissions & configure file provider in `AndroidManifest.xml`:
+
+```html
+<manifest ...>
+    ......
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+          
+    <application ...>
+        ......
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+        </provider>
+
+    </application>
+</manifest>
 ```
 
 ### Re-build your application
