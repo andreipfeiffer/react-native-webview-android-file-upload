@@ -1,6 +1,6 @@
 {
   "name": "react-native-webview-android-file-upload",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": false,
   "peerDependencies": {
     "react": ">= 16.0.0",
