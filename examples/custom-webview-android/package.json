@@ -9,7 +9,7 @@
   "dependencies": {
     "react": "16.3.1",
     "react-native": "0.55.3",
-    "react-native-webview-android-file-upload": "git+ssh://git@github.com/andreipfeiffer/react-native-webview-android-file-upload.git"
+    "react-native-webview-android-file-upload": "git+ssh://git@github.com/andreipfeiffer/react-native-webview-android-file-upload.git#1.2.0"
   },
   "devDependencies": {
     "babel-jest": "22.4.3",
