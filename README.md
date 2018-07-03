@@ -13,6 +13,7 @@ What this module does:
 * extracts it into a separate module like [lucasferreira's react-native-webview-android][lucasferreira] for easier setup;
 * adds the video recording functionality;
 * adds support for the `accept` attribute;
+* adds support for sdk 26, using `FileProvider`
 
 It should work with React Native 0.50+, and reverts to the built-in WebView on iOS.
 
@@ -79,6 +80,8 @@ public class MainApplication extends Application implements ReactApplication {
 ```
 
 * Add file provider path resource `file_provider_paths.xml` in `[your project]/android/app/src/main/res/xml/` folder. If the folder does not exist, create a new one.
+
+NOTE: this is a requirement for `sdk 26`. This approach should NOT require you to ask/handle any dangerous permissions.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
