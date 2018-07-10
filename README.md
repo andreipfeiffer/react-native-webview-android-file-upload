@@ -33,7 +33,7 @@ react-native link react-native-webview-android-file-upload
 
 The above should make (most of) the changes listed below. If it didn't, you should try manual linking.
 
-### Manual linking
+### or Manual linking
 
 * Update `android/setting.gradle`
 
@@ -78,6 +78,8 @@ public class MainApplication extends Application implements ReactApplication {
 
 }
 ```
+
+### File Provider setup
 
 * Add file provider path resource `file_provider_paths.xml` in `[your project]/android/app/src/main/res/xml/` folder. If the folder does not exist, create a new one.
 
