@@ -67,21 +67,33 @@
         <input type="file" accept="image/*, video/*" />
       </label>
     </p>
+    <br>
+    <p>
+      <label>
+        <strong>Multiple files</strong>
+        <br>
+        <input type="file" multiple />
+      </label>
+    </p>
   </form>
 
   <script>
-    const toggleMultiple = document.getElementById("toggle-multiple");
-    const toggleMultipleText = toggleMultiple.querySelector("span").textContent;
-    toggleMultiple.querySelector("input").addEventListener("change", event => {
-      document.querySelectorAll("input[type='file']").forEach(input => {
-        if (event.target.checked) {
-          input.setAttribute("multiple", true);
-        } else {
-          input.removeAttribute("multiple");
-        }
-        toggleMultiple.querySelector("span").textContent = `${toggleMultipleText} (${event.target.checked.toString()})`;
-      });
-    })
+    try {
+      const toggleMultiple = document.getElementById("toggle-multiple");
+      const toggleMultipleText = toggleMultiple.querySelector("span").textContent;
+      toggleMultiple.querySelector("input").addEventListener("change", event => {
+        document.querySelectorAll("input[type='file']").forEach(input => {
+          if (event.target.checked) {
+            input.setAttribute("multiple", true);
+          } else {
+            input.removeAttribute("multiple");
+          }
+          toggleMultiple.querySelector("span").textContent = `${toggleMultipleText} (${event.target.checked.toString()})`;
+        });
+      })
+    } catch (e) {
+      alert(e);
+    }
   </script>
 
 </body>
