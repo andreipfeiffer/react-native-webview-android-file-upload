@@ -184,6 +184,10 @@ You can use the `multiple` attribute on the `<input />` element to allow users t
 <input type="file" multiple />
 ```
 
+# Changelog
+
+Please refer to __[CHANGELOG.md](CHANGELOG.md)__.
+
 [dahjelle]: https://github.com/dahjelle/react-native-android-webview-file-image-upload
 [lucasferreira]: https://github.com/lucasferreira/react-native-webview-android
 [example]: https://andreipfeiffer.github.io/react-native-webview-android-file-upload/index.html
