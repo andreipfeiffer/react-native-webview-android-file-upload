@@ -38,7 +38,7 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
     private Uri outputFileUri;
 
     // @todo this could be configured from JS
-    final String[] DEFAULT_MIME_TYPES = {"image/*", "video/*"};
+    final String[] DEFAULT_MIME_TYPES = {"image/*", "video/*", "audio/*"};
 
     final String TAKE_PHOTO = "Take a photo…";
     final String TAKE_VIDEO = "Record a video…";
