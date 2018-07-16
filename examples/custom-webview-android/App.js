@@ -18,6 +18,8 @@ export default class App extends Component {
           style={styles.container}
           webviewRef={e => (this.webview = e)}
           injectedJavaScript={"alert('Custom webview loaded')"}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
           source={{
             uri:
               "https://andreipfeiffer.github.io/react-native-webview-android-file-upload/index.html"
