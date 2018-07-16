@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Unreleased
 - n/a
 
-### [1.2.0]
+### [1.3.0]
 - Add support for multiple files selection
 - Add `audio/*` to default accepted file types
 - Use v27 for support libraries
