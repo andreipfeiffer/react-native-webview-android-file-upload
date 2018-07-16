@@ -31,7 +31,6 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
     public static final String REACT_CLASS = "CustomWebViewModule";
     private static final int REQUEST_CAMERA = 1;
     private static final int SELECT_FILE = 2;
-    public static final int REQUEST_STORAGE = 3;
 
     private CustomWebViewPackage aPackage;
     private ValueCallback<Uri[]> filePathCallback;
@@ -233,6 +232,7 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
     }
 
     private String[] getSafeAcceptedTypes(WebChromeClient.FileChooserParams params) {
+
         // the getAcceptTypes() is available only in api 21+
         // for lower level, we ignore it
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
