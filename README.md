@@ -13,7 +13,8 @@ What this module does:
 * extracts it into a separate module like [lucasferreira's react-native-webview-android][lucasferreira] for easier setup;
 * adds the video recording functionality;
 * adds support for the `accept` attribute;
-* adds support for sdk 26, using `FileProvider`
+* adds support for the `multiple` attribute;
+* adds support for sdk 26, using `FileProvider`;
 
 It should work with React Native 0.50+, and reverts to the built-in WebView on iOS.
 
@@ -166,7 +167,7 @@ export default class App extends Component {
 
 ### Controlling image and/or video
 
-You can use the `accept` attribute on the `<input />` element to control what type of media your users will be allowed to upload.
+You can use the `accept` attribute on the `<input />` element to control what type of media your users will be allowed to upload:
 
 * `<input type="file" />` will default to images and videos
 * `<input type="file" accept="image/*" />` will allow only image capture / selection
@@ -175,9 +176,13 @@ You can use the `accept` attribute on the `<input />` element to control what ty
 
 Check out the [example html][example].
 
-# @todo
+### Controlling multiple file selection
 
-The default accepted mime types are `"image/*, video/*"`, which don't include `audio`. This default could be customized from the React Native Component and maybe we can default to `"*/*"`.
+You can use the `multiple` attribute on the `<input />` element to allow users to select multiple existing files:
+
+```
+<input type="file" multiple />
+```
 
 [dahjelle]: https://github.com/dahjelle/react-native-android-webview-file-image-upload
 [lucasferreira]: https://github.com/lucasferreira/react-native-webview-android
