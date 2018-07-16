@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - n/a
 
 ### [1.2.0]
+- Add support for multiple files selection
+- Add `audio/*` to default accepted file types
+- Use v27 for support libraries
+
+### [1.2.0]
 - Add support for targetSdkVersion 26
 
 ### [1.1.0]
@@ -23,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add support for video recording
 
 [Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v1.0.0...HEAD
+[1.3.0]: https://github.com/andreipfeiffer/react-native-webview-android-file-upload/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/andreipfeiffer/react-native-webview-android-file-upload/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/andreipfeiffer/react-native-webview-android-file-upload/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/andreipfeiffer/react-native-webview-android-file-upload/compare/0.2.0...1.0.0
