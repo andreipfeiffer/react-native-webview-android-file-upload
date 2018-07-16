@@ -74,8 +74,9 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
             }
             break;
         case SELECT_FILE:
-            if (resultCode == RESULT_OK && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                filePathCallback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data));
+            if (resultCode == RESULT_OK && data != null) {
+                Uri result[] = this.getSelectedFiles(data, resultCode);
+                filePathCallback.onReceiveValue(result);
             } else {
                 filePathCallback.onReceiveValue(null);
             }
@@ -85,6 +86,28 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
     }
 
     public void onNewIntent(Intent intent) {
+    }
+
+    private Uri[] getSelectedFiles(Intent data, int resultCode) {
+        // we have one files selected
+        if (data.getData() != null) {
+            if (resultCode == RESULT_OK && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Uri[] result = WebChromeClient.FileChooserParams.parseResult(resultCode, data);
+                return result;
+            } else {
+                return null;
+            }
+        }
+        // we have multiple files selected
+        if (data.getClipData() != null) {
+            final int numSelectedFiles = data.getClipData().getItemCount();
+            Uri[] result = new Uri[numSelectedFiles];
+            for (int i = 0; i < numSelectedFiles; i++) {
+                result[i] = data.getClipData().getItemAt(i).getUri();
+            }
+            return result;
+        }
+        return null;
     }
 
     public boolean startPhotoPickerIntent(
@@ -159,9 +182,12 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
         final String[] acceptTypes = getSafeAcceptedTypes(fileChooserParams);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            final boolean allowMultiple = fileChooserParams.getMode() == WebChromeClient.FileChooserParams.MODE_OPEN_MULTIPLE;
+
             Intent intent = fileChooserParams.createIntent();
             intent.setType("*/*");
             intent.putExtra(Intent.EXTRA_MIME_TYPES, getAcceptedMimeType(acceptTypes));
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, allowMultiple);
             getCurrentActivity().startActivityForResult(intent, SELECT_FILE);
         }
     }
