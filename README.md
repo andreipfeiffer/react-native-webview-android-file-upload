@@ -119,6 +119,18 @@ NOTE: this is a requirement for `sdk 26`. This approach should NOT require you t
 </manifest>
 ```
 
+* !!! IMPORTANT !!!
+
+Remove the explicit Camera permission from your `AndroidManifest.xml`, in case you have it:
+
+```diff
+<manifest ...>
+
+-    <uses-permission android:name="android.permission.CAMERA" />
+          
+</manifest>
+```
+
 ### Re-build your application
 
 Since you have changed native code, reloading the JS code alone won't work:
