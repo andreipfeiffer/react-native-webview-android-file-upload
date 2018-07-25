@@ -1,6 +1,7 @@
 package com.rncustomwebview;
 
 import android.net.Uri;
+import android.os.Build;
 import android.webkit.ConsoleMessage;
 import android.webkit.GeolocationPermissions;
 import android.webkit.ValueCallback;
@@ -56,7 +57,9 @@ public class CustomWebViewManager extends ReactWebViewManager {
         });
 
         // force web content debugging on
-        WebView.setWebContentsDebuggingEnabled(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
         return webView;
     }
 
