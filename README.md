@@ -54,7 +54,10 @@ project(':react-native-webview-android-file-upload').projectDir = new File(rootP
 
 dependencies {
   ......
+  // for gradle < 3.0
   compile project(':react-native-webview-android-file-upload')
+  // for gradle 3+
+  implementation project(':react-native-webview-android-file-upload')
 }
 ```
 
