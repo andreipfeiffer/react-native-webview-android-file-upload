@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### [1.3.1]
 - Fix support for sdk level lower than 19
+- Upgrade built tools to v27
+- Upgrade `compile` with `implementation`
 
 ### [1.3.0]
 - Add support for multiple files selection
