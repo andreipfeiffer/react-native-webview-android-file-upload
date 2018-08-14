@@ -98,7 +98,7 @@ NOTE: this is a requirement for `sdk 26`. This approach should NOT require you t
 
 * Add permissions & configure file provider in `AndroidManifest.xml`:
 
-```html
+```xml
 <manifest ...>
     ......
 
@@ -191,7 +191,7 @@ You can use the `accept` attribute on the `<input />` element to control what ty
 
 Check out the [example html][example].
 
-### Controlling multiple file selection
+### Enable multiple file selection
 
 You can use the `multiple` attribute on the `<input />` element to allow users to select multiple existing files:
 
