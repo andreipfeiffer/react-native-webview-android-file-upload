@@ -37,7 +37,9 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
     private Uri outputFileUri;
 
     // @todo this could be configured from JS
-    final String[] DEFAULT_MIME_TYPES = {"image/*", "video/*", "audio/*"};
+    // Seek Asia Customized. Disable photo & video, only support doc and text resume
+    final String[] DEFAULT_MIME_TYPES = {"text/*", "application/rtf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/pdf", };
+
 
     final String TAKE_PHOTO = "Take a photo…";
     final String TAKE_VIDEO = "Record a video…";
@@ -202,10 +204,12 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
         List<String> listItems = new ArrayList<String>();
 
         if (acceptsImages(types)) {
-            listItems.add(TAKE_PHOTO);
+            // Seek Asia Customized. Disable Photo Resume
+            // listItems.add(TAKE_PHOTO);
         }
         if (acceptsVideo(types)) {
-            listItems.add(TAKE_VIDEO);
+            // Seek Asia Customized. Disable Video Resume
+            // listItems.add(TAKE_VIDEO);
         }
 
         listItems.add(CHOOSE_FILE);
