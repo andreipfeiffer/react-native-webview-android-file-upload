@@ -15,6 +15,7 @@ What this module does:
 * adds support for the `accept` attribute;
 * adds support for the `multiple` attribute;
 * adds support for sdk 26, using `FileProvider`;
+* adds runtime Camera Permissions (thanks [Pablo Navarro](https://github.com/Zjarr));
 
 It should work with React Native 0.50+, and reverts to the built-in WebView on iOS.
 
