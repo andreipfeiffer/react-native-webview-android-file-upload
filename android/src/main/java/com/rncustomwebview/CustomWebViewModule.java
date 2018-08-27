@@ -42,6 +42,7 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
     private CustomWebViewPackage aPackage;
     private ValueCallback<Uri[]> filePathCallback;
     private Uri outputFileUri;
+    private String intentTypeAfterPermissionGranted;
 
     // @todo this could be configured from JS
     final String[] DEFAULT_MIME_TYPES = {"image/*", "video/*", "audio/*"};
@@ -143,9 +144,9 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (items[item].equals(TAKE_PHOTO)) {
-                    startCamera(MediaStore.ACTION_IMAGE_CAPTURE, "image-", ".jpg");
+                    startCamera(MediaStore.ACTION_IMAGE_CAPTURE);
                 } else if (items[item].equals(TAKE_VIDEO)) {
-                    startCamera(MediaStore.ACTION_VIDEO_CAPTURE, "video-", ".mp4");
+                    startCamera(MediaStore.ACTION_VIDEO_CAPTURE);
                 } else if (items[item].equals(CHOOSE_FILE)) {
                     startFileChooser(fileChooserParams);
                 } else if (items[item].equals(CANCEL)) {
@@ -171,7 +172,7 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
             switch (requestCode) {
                 case REQUEST_CAMERA: {
                     if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        startCamera(MediaStore.ACTION_IMAGE_CAPTURE, "image-", ".jpg");
+                        startCamera(intentTypeAfterPermissionGranted);
                         break;
                     }
                     else {
@@ -199,24 +200,18 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
         return ActivityCompat.checkSelfPermission(getCurrentActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
     }
 
-
-    private void startCamera(String intentType, String prefix, String suffix) {
+    private void startCamera(String intentType) {
         if (permissionsGranted()) {
             // bring up a camera picker intent
             // we need to pass a filename for the file to be saved to
             Intent intent = new Intent(intentType);
 
             // Create the File where the photo should go
-            try {
-                String packageName = getReactApplicationContext().getPackageName();
-                File capturedFile = createCapturedFile(prefix, suffix);
-                outputFileUri = FileProvider.getUriForFile(getReactApplicationContext(), packageName+".fileprovider", capturedFile);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-                getCurrentActivity().startActivityForResult(intent, REQUEST_CAMERA);
-            } catch (IOException ex) {
-                Log.e("CREATE FILE", "Error occurred while creating the File", ex);
-            }
+            outputFileUri = getOutputFilename(intentType);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            getCurrentActivity().startActivityForResult(intent, REQUEST_CAMERA);
         } else {
+            intentTypeAfterPermissionGranted = intentType;
             requestPermissions();
         }
     }
@@ -241,7 +236,7 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
         File storageDir = getReactApplicationContext().getExternalFilesDir(null);
         return File.createTempFile(imageFileName, suffix, storageDir);
     }
-    
+
     private CharSequence[] getDialogItems(String[] types) {
         List<String> listItems = new ArrayList<String>();
 
@@ -292,6 +287,29 @@ public class CustomWebViewModule extends ReactContextBaseJavaModule implements A
             return DEFAULT_MIME_TYPES;
         }
         return types;
+    }
+
+    private Uri getOutputFilename(String intentType) {
+        String prefix = "";
+        String suffix = "";
+
+        if (intentType == MediaStore.ACTION_IMAGE_CAPTURE) {
+            prefix = "image-";
+            suffix = ".jpg";
+        } else if (intentType == MediaStore.ACTION_VIDEO_CAPTURE) {
+            prefix = "video-";
+            suffix = ".mp4";
+        }
+
+        String packageName = getReactApplicationContext().getPackageName();
+        File capturedFile = null;
+        try {
+            capturedFile = createCapturedFile(prefix, suffix);
+        } catch (IOException e) {
+            Log.e("CREATE FILE", "Error occurred while creating the File", e);
+            e.printStackTrace();
+        }
+        return FileProvider.getUriForFile(getReactApplicationContext(), packageName+".fileprovider", capturedFile);
     }
 
     private Boolean isArrayEmpty(String[] arr) {
