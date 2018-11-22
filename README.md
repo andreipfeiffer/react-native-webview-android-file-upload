@@ -1,3 +1,6 @@
+# [DEPRECATED]
+Please use https://github.com/react-native-community/react-native-webview, which is maintained by the React Native Community.
+
 # React Native Android WebView File Upload
 
 This is a Custom React Native Android module that enables file uploads from a WebView `<input type="file" />` element:
