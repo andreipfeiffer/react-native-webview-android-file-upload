@@ -1,5 +1,6 @@
-# [DEPRECATED]
-Please use https://github.com/react-native-community/react-native-webview, which is maintained by the React Native Community.
+# ⚠️⚠️⚠️ [ DEPRECATED ] ⚠️⚠️⚠️
+
+👉 Please use https://github.com/react-native-community/react-native-webview, which is maintained by the React Native Community.
 
 # React Native Android WebView File Upload
 
